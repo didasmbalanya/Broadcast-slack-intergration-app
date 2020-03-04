@@ -17,10 +17,7 @@ const app = new App({
 });
 
 app.event("app_home_opened", async ({ event, context }) => {
-  // const publicChannels = await app.client.conversations.list();
-  // console.log(publicChannels);
   try {
-    /* view.publish is the method that your app uses to push a view to the Home tab */
     const result = await app.client.views.publish({
       /* retrieves your xoxb token from context */
       token: context.botToken,
@@ -53,9 +50,8 @@ app.action("open_broadcast_modal", async ({ context, ack, body }) => {
   try {
     const result = await app.client.views.open({
       token: context.botToken,
-      // Pass a valid trigger_id within 3 seconds of receiving it
+
       trigger_id: body.trigger_id,
-      // View payload
       view: broadcastModal
     });
   } catch (error) {
@@ -64,7 +60,6 @@ app.action("open_broadcast_modal", async ({ context, ack, body }) => {
 });
 
 app.view("broadcast_modal_callback", async ({ ack, view, context }) => {
-  // Acknowledge the view_submission event
   ack();
   const text =
     view["state"]["values"]["text_block"]["text_input_broadcast"]["value"];
@@ -75,12 +70,11 @@ app.view("broadcast_modal_callback", async ({ ack, view, context }) => {
 
   users.map(async user => {
     try {
-      
       await app.client.chat.postMessage({
         token: context.botToken,
         channel: user,
-        as_user:true,
-        username:'Obione',
+        as_user: true,
+        username: "Obione",
         text
       });
     } catch (error) {
@@ -90,7 +84,6 @@ app.view("broadcast_modal_callback", async ({ ack, view, context }) => {
 });
 
 (async () => {
-  // start app
   await app.start(process.env.PORT || 3000);
   console.log(`⚡️ Bolt app is running on ${process.env.PORT}!`);
 })();
