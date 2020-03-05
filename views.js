@@ -54,10 +54,10 @@ const userSelect = {
 
 const multiUserSelect = {
   type: "input",
-  block_id:"selected_users_block",
+  block_id: "selected_users_block",
   element: {
     type: "multi_users_select",
-    action_id:"users_broadcast_to",
+    action_id: "users_broadcast_to",
     placeholder: {
       type: "plain_text",
       text: "Select users",
@@ -73,7 +73,7 @@ const multiUserSelect = {
 
 const broadcastModal = {
   type: "modal",
-  callback_id: 'broadcast_modal_callback',
+  callback_id: "broadcast_modal_callback",
   title: {
     type: "plain_text",
     text: "BroadCast",
@@ -102,10 +102,24 @@ const broadcastModal = {
     },
     {
       type: "input",
+      block_id:"subject_block",
+      optional: true,
+      element: {
+        type: "plain_text_input",
+        action_id: "subject_input_broadcast",
+      },
+      label: {
+        type: "plain_text",
+        text: "Subject",
+        emoji: true
+      }
+    },
+    {
+      type: "input",
       block_id: "text_block",
       element: {
         type: "plain_text_input",
-        action_id:"text_input_broadcast",
+        action_id: "text_input_broadcast",
         multiline: true
       },
       label: {
@@ -113,9 +127,57 @@ const broadcastModal = {
         text: "Message",
         emoji: true
       }
+    },
+    {
+      type: "input",
+      block_id:"link_block",
+      optional: true,
+      element: {
+        type: "plain_text_input",
+        action_id: "link_input_broadcast",
+      },
+      label: {
+        type: "plain_text",
+        text: "Link",
+        emoji: true
+      }
     }
   ]
 };
+
+const resBlock = (headline, text, sender, link = "N/A") => [
+  divider,
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `*Subject*: *${headline}*`
+    }
+  },
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `*Message*:\n\n\`\`\`${text}\`\`\``
+    }
+  },
+  {
+    type: "section",
+    text: {
+      type: "mrkdwn",
+      text: `*link*: ${link}`
+    }
+  },
+  {
+    type: "context",
+    elements: [
+      {
+        type: "mrkdwn",
+        text: `*From:* <@${sender}>`
+      }
+    ]
+  }
+];
 
 module.exports = {
   intro,
@@ -124,5 +186,6 @@ module.exports = {
   userSelect,
   openModalButton,
   intro2,
-  broadcastModal
+  broadcastModal,
+  resBlock
 };

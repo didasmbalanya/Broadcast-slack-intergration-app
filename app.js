@@ -4,7 +4,8 @@ const {
   divider,
   about,
   openModalButton,
-  broadcastModal
+  broadcastModal,
+  resBlock
 } = require("./views");
 
 const { App } = require("@slack/bolt");
@@ -59,7 +60,7 @@ app.action("open_broadcast_modal", async ({ context, ack, body }) => {
   }
 });
 
-app.view("broadcast_modal_callback", async ({ ack, view, context }) => {
+app.view("broadcast_modal_callback", async ({ ack, view, context, body }) => {
   ack();
   const text =
     view["state"]["values"]["text_block"]["text_input_broadcast"]["value"];
@@ -67,15 +68,23 @@ app.view("broadcast_modal_callback", async ({ ack, view, context }) => {
     view["state"]["values"]["selected_users_block"]["users_broadcast_to"][
       "selected_users"
     ];
+  const subject =
+    view["state"]["values"]["subject_block"]["subject_input_broadcast"][
+      "value"
+    ] || 'Broadcast'
+  const link =
+    view["state"]["values"]["link_block"]["link_input_broadcast"]["value"];
+  const sender = body.user.id;
 
   users.map(async user => {
     try {
       await app.client.chat.postMessage({
         token: context.botToken,
         channel: user,
-        as_user: true,
-        username: "Obione",
-        text
+        text: "Broadcast",
+        attachments: [{ blocks: resBlock(subject, text, sender, link) }]
+        // username: 'obi one'
+        // icon_emoji:":eyes:"
       });
     } catch (error) {
       console.log(error);
