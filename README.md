@@ -14,3 +14,13 @@ bot:
  - chat.write
  - chat.write.customize
  - chat.write.public
+
+Broadcast recieved sample
+```
+Broadcast
+Subject: REBASE
+Message:
+Rebase and do not remove comments
+link: github.com
+From: @Didas Mbalanya
+```

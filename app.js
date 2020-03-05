@@ -71,7 +71,7 @@ app.view("broadcast_modal_callback", async ({ ack, view, context, body }) => {
   const subject =
     view["state"]["values"]["subject_block"]["subject_input_broadcast"][
       "value"
-    ] || 'Broadcast'
+    ] || 'BROADCAST'
   const link =
     view["state"]["values"]["link_block"]["link_input_broadcast"]["value"];
   const sender = body.user.id;
@@ -82,7 +82,7 @@ app.view("broadcast_modal_callback", async ({ ack, view, context, body }) => {
         token: context.botToken,
         channel: user,
         text: "Broadcast",
-        attachments: [{ blocks: resBlock(subject, text, sender, link) }]
+        attachments: [{ blocks: resBlock(subject.toUpperCase() , text, sender, link) }]
         // username: 'obi one'
         // icon_emoji:":eyes:"
       });
