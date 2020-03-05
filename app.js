@@ -81,7 +81,7 @@ app.view("broadcast_modal_callback", async ({ ack, view, context, body }) => {
       await app.client.chat.postMessage({
         token: context.botToken,
         channel: user,
-        text: "Broadcast",
+        text: subject.toUpperCase(),
         attachments: [{ blocks: resBlock(subject.toUpperCase() , text, sender, link) }]
         // username: 'obi one'
         // icon_emoji:":eyes:"
